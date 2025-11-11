@@ -1,0 +1,9 @@
+name: weather-project
+
+on:
+  push:
+    branches: [ "andres_branch" ]
+  workflow_dispatch:
+     inputs:
+       log_error:
+         description: "Generate log if tests fails"
