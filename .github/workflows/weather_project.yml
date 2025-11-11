@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
      inputs: 
        log_error:
-       description: "Generate log if tests fails"
+       description: 'Generate log if tests fails'
        required: true
-       default: "true"
+       default: 'true'
 
 env: 
   DOCKERFILE: ./Dockerfile
-  PYTHON_VERSION: "3.11"
+  PYTHON_VERSION: '3.11'
   IMAGE_NAME: andr18/weather_project
 
 
