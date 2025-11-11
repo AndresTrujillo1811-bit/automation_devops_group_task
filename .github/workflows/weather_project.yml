@@ -11,7 +11,7 @@ on:
        default: "true"
 
 env: 
-  DOCKERFILE: ./dockerfile
+  DOCKERFILE: ./Dockerfile
   PYTHON_VERSION: "3.11"
   IMAGE_NAME: andr18/weather_project
 
@@ -34,7 +34,7 @@ jobs:
     - name: Installing dependencies
       run: pip install -r requirements.txt
 
-    - name: Create log 
+    - name: Generate fail log 
       if: ${{ env.TEST_FAILED == 'true' && github.event.inputs.log_error == 'true' }}
       uses: action/upload-artifact@v4
       with:
