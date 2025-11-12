@@ -1,4 +1,4 @@
-name: Andres - weather_project
+name: Andres - weather app project
 
 on:
   push:
@@ -12,7 +12,8 @@ on:
 
 env: 
   PYTHON_VERSION: '3.11'
-  IMAGE_NAME: andr18/weather_project
+  IMAGE_NAME: andr18/weather-project
+  DOCKERFILE_PATH: ./dockerfile
 
 
 jobs:
@@ -29,8 +30,11 @@ jobs:
         python-version: ${{ env.PYTHON_VERSION }}  
 
     - name: Installing dependencies
-      run: pip install -r requirements.txt
-
+      run: |
+        pip install -r requirements.txt
+        pip install pytest
+        pip install --upgrade pip
+        
     - name: Run tests
       run: | 
         pytest || echo "TEST_FAILED=true" >> $GITHUB_ENV
@@ -60,12 +64,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push to Docker Hub
+      - name: Build and push 
         uses: docker/build-push-action@v6
-        with: 
+        with:
           context: . 
-          file: ./dockerfile
+          file: ${{ env.DOCKERFILE_PATH }}
           push: true 
-          tags: |
-            ${{ env.IMAGE_NAME }}:latest
-             ${{ env.IMAGE_NAME }}:1.0
+          tags: | 
+            ${{ env.IMAGE_NAME}}:latest 
+        
+             
