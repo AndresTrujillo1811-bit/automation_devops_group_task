@@ -1,4 +1,4 @@
-name: Andres - weather_project
+name: Andres - weather app project
 
 on:
   push:
@@ -12,7 +12,8 @@ on:
 
 env: 
   PYTHON_VERSION: '3.11'
-  IMAGE_NAME: andr18/weather_project
+  IMAGE_NAME: andr18/weather-project
+  DOCKERFILE: ./dockerfile
 
 
 jobs:
@@ -42,7 +43,7 @@ jobs:
         name: error-log
         path: test.log
 
-  build-and-push:
+  build:
     name: Building and pushing Docker image        
     runs-on: ubuntu-latest
     needs: tests
@@ -60,12 +61,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push to Docker Hub
-        uses: docker/build-push-action@v6
-        with: 
-          context: . 
-          file: ./dockerfile
-          push: true 
-          tags: |
-            ${{ env.IMAGE_NAME }}:latest
-             ${{ env.IMAGE_NAME }}:1.0
+      - name: Building Docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:latest . 
+          docker tag ${{ env.IMAGE_NAME }}:latest
+
+      - name: Pushing Docker image
+        run: |
+          docker push ${{ env.IMAGE_NAME }}:latest
+        
+             
