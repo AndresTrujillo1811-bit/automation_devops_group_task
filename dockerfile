@@ -3,6 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app 
 
 COPY get_api.py . 
+COPY requirements.txt .
 COPY dashboard.py .      
 
 RUN pip install -r requirements.txt 
